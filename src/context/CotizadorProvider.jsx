@@ -1,18 +1,41 @@
 import { useState, createContext } from "react";
+import { obtenerDiferenciaYear } from "../helpers";
 
 const CotizadorContext = createContext();
 
 const CotizadorProvider = ({ children }) => {
 
+    const [datos, setDatos] = useState({
+        marca: '',
+        year: '',
+        plan: ''
+    });
+
+    const [error, setError] = useState("");
+
     const handleChangeDatos = e => {
-        console.log(e.target.name);
-        console.log(e.target.value);
+        setDatos({
+            ...datos,
+            [e.target.name]: e.target.value
+        });
+    }
+
+    const cotizarSeguro = () => {
+        //Una base
+        let resultado = 2000;
+        
+        //Obtener diferencia de años
+        const diferencia = obtenerDiferenciaYear(datos.year);
     }
 
     return (
         <CotizadorContext.Provider 
             value={{
-                handleChangeDatos
+                datos,
+                handleChangeDatos,
+                error,
+                setError,
+                cotizarSeguro
             }}
         >
             {children}
